@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		965C76F41845D69700A29836 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 965C76F31845D69700A29836 /* README.md */; };
 		9677951516B15C770085539E /* TRBlurGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9677951416B15C770085539E /* TRBlurGlassView.m */; };
 		9677952916B29E380085539E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9677952816B29E380085539E /* OpenGLES.framework */; };
 		969F00B81716F8AF002940C3 /* example@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969F00B71716F8AF002940C3 /* example@2x.png */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		965C76F31845D69700A29836 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		9677951316B15C770085539E /* TRBlurGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRBlurGlassView.h; sourceTree = "<group>"; };
 		9677951416B15C770085539E /* TRBlurGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRBlurGlassView.m; sourceTree = "<group>"; };
 		9677952816B29E380085539E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -115,6 +117,7 @@
 				9FB1B4A3165051DD0076BEB5 /* LBViewController.h */,
 				9FB1B4A4165051DD0076BEB5 /* LBViewController.m */,
 				9FB1B4A6165051DD0076BEB5 /* LBViewController.xib */,
+				965C76F31845D69700A29836 /* README.md */,
 				9FB1B492165051DD0076BEB5 /* Supporting Files */,
 				9677951316B15C770085539E /* TRBlurGlassView.h */,
 				9677951416B15C770085539E /* TRBlurGlassView.m */,
@@ -191,6 +194,7 @@
 				9FB1B496165051DD0076BEB5 /* InfoPlist.strings in Resources */,
 				9FB1B49E165051DD0076BEB5 /* Default.png in Resources */,
 				9FB1B4A0165051DD0076BEB5 /* Default@2x.png in Resources */,
+				965C76F41845D69700A29836 /* README.md in Resources */,
 				9FB1B4A2165051DD0076BEB5 /* Default-568h@2x.png in Resources */,
 				9FB1B4A8165051DD0076BEB5 /* LBViewController.xib in Resources */,
 				969F00B81716F8AF002940C3 /* example@2x.png in Resources */,
