@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96528DAA184CA2B600282341 /* qr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96528DA9184CA2B600282341 /* qr@2x.png */; };
+		96528DC8184D948700282341 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 96528DC7184D948700282341 /* mask.png */; };
 		965C76F41845D69700A29836 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 965C76F31845D69700A29836 /* README.md */; };
 		9677951516B15C770085539E /* TRBlurGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9677951416B15C770085539E /* TRBlurGlassView.m */; };
 		9677952916B29E380085539E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9677952816B29E380085539E /* OpenGLES.framework */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96528DA9184CA2B600282341 /* qr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr@2x.png"; sourceTree = "<group>"; };
+		96528DC7184D948700282341 /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
 		965C76F31845D69700A29836 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		9677951316B15C770085539E /* TRBlurGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRBlurGlassView.h; sourceTree = "<group>"; };
 		9677951416B15C770085539E /* TRBlurGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRBlurGlassView.m; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 			children = (
 				9F018C1E16516E0900AE2C47 /* Additions */,
 				969F00B71716F8AF002940C3 /* example@2x.png */,
+				96528DA9184CA2B600282341 /* qr@2x.png */,
+				96528DC7184D948700282341 /* mask.png */,
 				9FB1B49A165051DD0076BEB5 /* LBAppDelegate.h */,
 				9FB1B49B165051DD0076BEB5 /* LBAppDelegate.m */,
 				9FB1B4A3165051DD0076BEB5 /* LBViewController.h */,
@@ -192,6 +198,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FB1B496165051DD0076BEB5 /* InfoPlist.strings in Resources */,
+				96528DAA184CA2B600282341 /* qr@2x.png in Resources */,
+				96528DC8184D948700282341 /* mask.png in Resources */,
 				9FB1B49E165051DD0076BEB5 /* Default.png in Resources */,
 				9FB1B4A0165051DD0076BEB5 /* Default@2x.png in Resources */,
 				965C76F41845D69700A29836 /* README.md in Resources */,

@@ -12,5 +12,6 @@
 @interface TRBlurGlassView : UIView
 
 @property (nonatomic, assign) CGFloat blurRadius;
+@property (nonatomic) UIImage *maskImage;
 
 @end

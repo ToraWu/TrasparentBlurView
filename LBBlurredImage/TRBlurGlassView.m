@@ -23,15 +23,52 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.layer.cornerRadius = 20.0f;
-        self.clipsToBounds = YES;
+        //self.layer.cornerRadius = 20.0f;
+        //self.clipsToBounds = YES;
         self.userInteractionEnabled = YES;
         self.blurRadius = 2.5;
         
         EAGLContext *myEAGLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         self.ciContext  = [CIContext contextWithEAGLContext:myEAGLContext options:nil];
+        
+        //self.maskImage = [[QRCodeGenerator shareInstance] qrImageForString:@"http://roundqr.sinaapp.com/index.php" withPixSize:8 withMargin:2 withMode:5 withOutputSize:400];
     }
     return self;
+}
+
+- (UIImage *)captureView:(UIView *)view {
+    CGRect screenRect = [view bounds];
+    UIGraphicsBeginImageContext(screenRect.size);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [[UIColor blackColor] set];
+    CGContextFillRect(ctx, screenRect);
+    [view.layer renderInContext:ctx];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    ctx = nil;
+    
+    return newImage;
+}
+
+- (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
+    
+    CGImageRef srcImg  = image.CGImage;
+	CGImageRef maskRef = maskImage.CGImage;
+    
+	CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                        CGImageGetHeight(maskRef),
+                                        CGImageGetBitsPerComponent(maskRef),
+                                        CGImageGetBitsPerPixel(maskRef),
+                                        CGImageGetBytesPerRow(maskRef),
+                                        CGImageGetDataProvider(maskRef), NULL, false);
+    
+	CGImageRef masked = CGImageCreateWithMask(srcImg, mask);
+    UIImage *result = [UIImage imageWithCGImage:masked];
+    
+    CGImageRelease(masked);
+    CGImageRelease(mask);
+    
+	return result;
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -46,15 +83,23 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, 0, view.bounds.size.height);
     CGContextScaleCTM (context, 1, -1);
-    CGContextClipToRect(context, CGRectInset([self convertRect:rect toView:view], -2*self.blurRadius, -2*self.blurRadius));
+//    CGContextClipToRect(context, CGRectInset([self convertRect:rect toView:view], -2*self.blurRadius, -2*self.blurRadius));
     [view.layer renderInContext:context];
     
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     self.hidden = NO;
     
-    
     CIImage *sourceImage = [CIImage imageWithCGImage:viewImage.CGImage];
+    
+    NSString *cropFilterName = @"CICrop";
+    CIFilter *crop = [CIFilter filterWithName:cropFilterName];
+    
+    [crop setValue:sourceImage
+             forKey:kCIInputImageKey];
+    [crop setValue:[CIVector vectorWithCGRect:[self convertRect:rect toView:view]] forKey:@"inputRectangle"];
+    
+    CIImage *cropResult = [crop valueForKey:kCIOutputImageKey];
     
     
     // Apply clamp filter:
@@ -64,7 +109,7 @@
     NSString *clampFilterName = @"CIAffineClamp";
     CIFilter *clamp = [CIFilter filterWithName:clampFilterName];
     
-    [clamp setValue:sourceImage
+    [clamp setValue:cropResult
              forKey:kCIInputImageKey];
     
     CIImage *clampResult = [clamp valueForKey:kCIOutputImageKey];
@@ -81,14 +126,41 @@
                     forKey:@"inputRadius"];
     
     CIImage *gaussianBlurResult = [gaussianBlur valueForKey:kCIOutputImageKey];
-
     
+    context = UIGraphicsGetCurrentContext();
     CGRect convertedRect = [self convertRect:rect toView:view];
-    NSLog(@"%.0f*%.0f", sourceImage.extent.size.width, sourceImage.extent.size.height);
-    CGImageRef cgImage = [self.ciContext createCGImage:gaussianBlurResult
-                                       fromRect:convertedRect];
-    CGContextDrawImage(UIGraphicsGetCurrentContext(), rect, cgImage);
-    //[self.ciContext drawImage:gaussianBlurResult inRect:convertedRect fromRect:rect];
+    CGImageRef srcImg = [self.ciContext createCGImage:gaussianBlurResult
+                                             fromRect:cropResult.extent];
+    
+    if (self.maskImage) {
+        
+        CGImageRef maskRef = self.maskImage.CGImage;
+        
+        CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                            CGImageGetHeight(maskRef),
+                                            CGImageGetBitsPerComponent(maskRef),
+                                            CGImageGetBitsPerPixel(maskRef),
+                                            CGImageGetBytesPerRow(maskRef),
+                                            CGImageGetDataProvider(maskRef), NULL, true);
+        
+        CGImageRef masked = CGImageCreateWithMask(srcImg, mask);
+        
+        convertedRect = CGRectApplyAffineTransform(convertedRect, CGAffineTransformMakeTranslation(0, -view.bounds.size.height));
+        convertedRect = CGRectApplyAffineTransform(convertedRect, CGAffineTransformMakeScale(1, -1));
+        
+        CGImageRef cropedViewImage = CGImageCreateWithImageInRect(viewImage.CGImage, convertedRect);
+        CGContextDrawImage(context, rect, cropedViewImage);
+        //CGContextSetBlendMode (context, kCGBlendModeMultiply);
+        CGContextDrawImage(context, rect, masked);
+        
+        CGImageRelease(mask);
+        CGImageRelease(cropedViewImage);
+        CGImageRelease(masked);
+    } else {
+        CGContextDrawImage(context, rect, srcImg);
+    }
+    
+    CGImageRelease(srcImg);
 }
 
 

@@ -23,7 +23,10 @@
 {
     [super viewDidLoad];
     self.imageView.image = [UIImage imageNamed:@"example.png"];
-    [self.view addSubview:[[TRBlurGlassView alloc] initWithFrame:CGRectMake(20, 20, 80, 80)]];
+    TRBlurGlassView *blurView = [[TRBlurGlassView alloc] initWithFrame:CGRectMake(120, 120, 80, 80)];
+    blurView.maskImage = [UIImage imageNamed:@"mask.png"];
+    [self.view addSubview:blurView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
