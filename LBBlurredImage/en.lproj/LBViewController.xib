@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBViewController">
             <connections>
                 <outlet property="imageView" destination="8" id="13"/>
+                <outlet property="label" destination="19" id="toO-Uf-zRt"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>

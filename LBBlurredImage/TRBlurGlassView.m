@@ -76,14 +76,16 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    
+    CGFloat screenScale = [UIScreen mainScreen].scale;
+    
     // Drawing code
     UIView *view = [[self.window subviews] objectAtIndex:0];
     self.hidden = YES;
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1);
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, screenScale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, 0, view.bounds.size.height);
-    CGContextScaleCTM (context, 1, -1);
-//    CGContextClipToRect(context, CGRectInset([self convertRect:rect toView:view], -2*self.blurRadius, -2*self.blurRadius));
+    CGContextScaleCTM (context, 1/screenScale, -1/screenScale);
     [view.layer renderInContext:context];
     
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -128,6 +130,7 @@
     CIImage *gaussianBlurResult = [gaussianBlur valueForKey:kCIOutputImageKey];
     
     context = UIGraphicsGetCurrentContext();
+
     CGRect convertedRect = [self convertRect:rect toView:view];
     CGImageRef srcImg = [self.ciContext createCGImage:gaussianBlurResult
                                              fromRect:cropResult.extent];
@@ -145,8 +148,8 @@
         
         CGImageRef masked = CGImageCreateWithMask(srcImg, mask);
         
-        convertedRect = CGRectApplyAffineTransform(convertedRect, CGAffineTransformMakeTranslation(0, -view.bounds.size.height));
         convertedRect = CGRectApplyAffineTransform(convertedRect, CGAffineTransformMakeScale(1, -1));
+        convertedRect = CGRectApplyAffineTransform(convertedRect, CGAffineTransformMakeTranslation(0, view.bounds.size.height*screenScale));
         
         CGImageRef cropedViewImage = CGImageCreateWithImageInRect(viewImage.CGImage, convertedRect);
         CGContextDrawImage(context, rect, cropedViewImage);
